@@ -1,4 +1,4 @@
-var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
+var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
     //  Our core Bullet class
     //  This is a simple Sprite object that we set a few properties on
@@ -66,10 +66,10 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
         Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
 
         this.nextFire = 0;    
-        this.bulletSpeed = 100;
-        this.fireRate = 100;
+        this.bulletSpeed = 200;
+        this.fireRate = 75;
         // i < int is max number of single shot bullets possibel on screen
-        for (var i = 0; i < 2000; i++)
+        for (var i = 0; i < 5000; i++)
         {
             this.add(new Bullet(game, 'bullet5'), true);
         }
@@ -85,7 +85,7 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
 
         if (this.game.time.time < this.nextFire) { return; }
         //x and y are where bullets spawn
-        var x = source.x + 10;
+        var x = (Math.random() * 600); // i need to change 600 to the width, was lazy dont know how
         var y = 10//source.y + 10;
 
         this.getFirstExists(false).fire(x, y,90, this.bulletSpeed, 0, 0);
@@ -261,10 +261,10 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
         Phaser.Group.call(this, game, game.world, 'Beam', false, true, Phaser.Physics.ARCADE);
 
         this.nextFire = 0;
-        this.bulletSpeed = 1000;
-        this.fireRate = 45;
+        this.bulletSpeed = 500;
+        this.fireRate = 150;
 
-        for (var i = 0; i < 64; i++)
+        for (var i = 0; i < 200; i++)
         {
             this.add(new Bullet(game, 'bullet11'), true);
         }
@@ -280,10 +280,10 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
 
         if (this.game.time.time < this.nextFire) { return; }
 
-        var x = source.x + 40;
-        var y = source.y + 10;
+        var x = (Math.random() * 600);
+        var y = 10;
 
-        this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0, 0);
 
         this.nextFire = this.game.time.time + this.fireRate;
 
@@ -387,9 +387,9 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
 
         this.nextFire = 0;
         this.bulletSpeed = 400;
-        this.fireRate = 250;
+        this.fireRate = 2000;
 
-        for (var i = 0; i < 32; i++)
+        for (var i = 0; i < 200; i++)
         {
             this.add(new Bullet(game, 'bullet10'), true);
         }
@@ -406,13 +406,39 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
     Weapon.Rockets.prototype.fire = function (source) {
 
         if (this.game.time.time < this.nextFire) { return; }
+            var determine = Math.random();
+        if (determine <= 0.25)
+        {
+            var x = (Math.random() * 400) + 100;
+            var y = 0;
 
-        var x = source.x + 10;
-        var y = source.y + 10;
+            this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, -300, 0);
+            this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 300, 0);
+        }
+        else if ((determine < 0.5) && (determine >= 0.25))
+        {
+            var x = (Math.random() * 400) + 100;
+            var y = 800;
 
-        this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, -700);
-        this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 700);
+            this.getFirstExists(false).fire(x, y, 270, this.bulletSpeed, -300, 0);
+            this.getFirstExists(false).fire(x, y, 270, this.bulletSpeed, 300, 0);
+        }
+        else if ((determine < 0.75) && (determine >= 0.5))
+        {
+            var x = 600;
+            var y = (Math.random() * 600) + 100;
 
+            this.getFirstExists(false).fire(x, y, 180, this.bulletSpeed, 0, -300);
+            this.getFirstExists(false).fire(x, y, 180, this.bulletSpeed, 0, 300);
+        }
+        else
+        {
+            var x = 0;
+            var y = (Math.random() * 600) + 100;
+
+            this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, -300);
+            this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 300); 
+        }
         this.nextFire = this.game.time.time + this.fireRate;
 
     };
@@ -464,7 +490,8 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
 
         this.name = "Combo One";
         this.weapon1 = new Weapon.SingleBullet(game);
-        this.weapon2 = new Weapon.Rockets(game);
+        this.weapon2 = new Weapon.Beam(game);
+        this.weapon3 = new Weapon.Rockets(game);
 
     };
 
@@ -478,12 +505,17 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
         this.weapon2.callAll('reset', null, 0, 0);
         this.weapon2.setAll('exists', false);
 
+        this.weapon3.visible = false;
+        this.weapon3.callAll('reset', null, 0, 0);
+        this.weapon3.setAll('exists', false);
+
     };
 
     Weapon.Combo1.prototype.fire = function (source) {
 
         this.weapon1.fire(source);
         this.weapon2.fire(source);
+        this.weapon3.fire(source);
 
     };
 
@@ -532,12 +564,13 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
         this.foreground = null;
 
         this.player = null;
+        this.player2 = null;
         this.cursors = null;
         this.speed = 300;
 
         this.weapons = [];
         this.currentWeapon = 0;
-        this.weaponName = null;
+        //this.weaponName = null;
 
     };
 
@@ -562,7 +595,8 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
             //next line adds foreground image
             //this.load.image('foreground', 'assets/fore.png');
             this.load.image('player', 'assets/ship.png');
-            this.load.bitmapFont('shmupfont', 'assets/shmupfont.png', 'assets/shmupfont.xml');
+            this.load.image('player2', 'assets/ship.png');
+            //this.load.bitmapFont('shmupfont', 'assets/shmupfont.png', 'assets/shmupfont.xml');
 
             for (var i = 1; i <= 11; i++)
             {
@@ -599,15 +633,17 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
             }
 
             this.player = this.add.sprite(64, 200, 'player');
+            this.player = this.add.sprite(75, 210, 'player2');
 
             this.physics.arcade.enable(this.player);
 
             this.player.body.collideWorldBounds = true;
+            
             // next two lines causes scrolling foreground
             //this.foreground = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'foreground');
             //this.foreground.autoScroll(-60, 0);
 
-            this.weaponName = this.add.bitmapText(8, 364, 'shmupfont', "ENTER = Next Weapon", 24);
+            //this.weaponName = this.add.bitmapText(8, 364, 'shmupfont', "ENTER = Next Weapon", 24);
 
             //  Cursor keys to fly + space to fire
             this.cursors = this.input.keyboard.createCursorKeys();
