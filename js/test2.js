@@ -23,7 +23,7 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
 
     Bullet.prototype = Object.create(Phaser.Sprite.prototype);
     Bullet.prototype.constructor = Bullet;
-
+    // start x position, start y position, direction bullet shoots, bullet speed, x gravity, y gravity
     Bullet.prototype.fire = function (x, y, angle, speed, gx, gy) {
 
         gx = gx || 0;
@@ -66,7 +66,7 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
         Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
 
         this.nextFire = 0;
-        this.bulletSpeed = 12;
+        this.bulletSpeed = 100;
         this.fireRate = 100;
         // i < int is max number of single shot bullets possibel on screen
         for (var i = 0; i < 2000; i++)
@@ -84,9 +84,9 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
     Weapon.SingleBullet.prototype.fire = function (source) {
 
         if (this.game.time.time < this.nextFire) { return; }
-
+        //x and y are where bullets spawn
         var x = source.x + 10;
-        var y = source.y + 10;
+        var y = 10//source.y + 10;
 
         this.getFirstExists(false).fire(x, y,90, this.bulletSpeed, 0, 0);
 
@@ -559,7 +559,8 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
             this.load.crossOrigin = 'anonymous';
 
             this.load.image('background', 'assets/back.png');
-            this.load.image('foreground', 'assets/fore.png');
+            //next line adds foreground image
+            //this.load.image('foreground', 'assets/fore.png');
             this.load.image('player', 'assets/ship.png');
             this.load.bitmapFont('shmupfont', 'assets/shmupfont.png', 'assets/shmupfont.xml');
 
@@ -602,9 +603,9 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
             this.physics.arcade.enable(this.player);
 
             this.player.body.collideWorldBounds = true;
-
-            this.foreground = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'foreground');
-            this.foreground.autoScroll(-60, 0);
+            // next two lines causes scrolling foreground
+            //this.foreground = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'foreground');
+            //this.foreground.autoScroll(-60, 0);
 
             this.weaponName = this.add.bitmapText(8, 364, 'shmupfont', "ENTER = Next Weapon", 24);
 
