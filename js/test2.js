@@ -66,7 +66,7 @@ var game = new Phaser.Game(400, 800, Phaser.AUTO, 'game');
         Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
 
         this.nextFire = 0;
-        this.bulletSpeed = 12;
+        this.bulletSpeed = 75;
         this.fireRate = 100;
         // i < int is max number of single shot bullets possibel on screen
         for (var i = 0; i < 2000; i++)
