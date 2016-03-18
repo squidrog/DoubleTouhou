@@ -592,6 +592,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
             this.load.crossOrigin = 'anonymous';
 
             this.load.image('background', 'assets/back.png');
+            this.load.image('backgroundDie', 'assets/backCheck.png');
             //next line adds foreground image
             //this.load.image('foreground', 'assets/fore.png');
             this.load.image('player', 'assets/ship.png');
@@ -633,11 +634,13 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
             }
 
             this.player = this.add.sprite(64, 200, 'player');
-            this.player = this.add.sprite(75, 210, 'player2');
+            this.player2 = this.add.sprite(75, 210, 'player2');
 
             this.physics.arcade.enable(this.player);
+            this.physics.arcade.enable(this.player2);
 
             this.player.body.collideWorldBounds = true;
+            this.player2.body.collideWorldBounds = true;
             
             // next two lines causes scrolling foreground
             //this.foreground = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'foreground');
@@ -685,7 +688,13 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         update: function () {
 
+            var left2 = game.input.keyboard.addKey(Phaser.Keyboard.D);
+            var up2 = game.input.keyboard.addKey(Phaser.Keyboard.W);
+            var down2 = game.input.keyboard.addKey(Phaser.Keyboard.S);
+            var right2 = game.input.keyboard.addKey(Phaser.Keyboard.A);
+
             this.player.body.velocity.set(0);
+            this.player2.body.velocity.set(0);
 
             if (this.cursors.left.isDown)
             {
@@ -704,14 +713,26 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
             {
                 this.player.body.velocity.y = this.speed;
             }
-
-            if (this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
+            if (left2.isDown)
             {
-                this.weapons[this.currentWeapon].fire(this.player);
+                this.player2.body.velocity.x = this.speed;
+            }
+            else if (right2.isDown)
+            {
+                this.player2.body.velocity.x = -this.speed;
             }
 
-        }
+            if (up2.isDown)
+            {
+                this.player2.body.velocity.y = -this.speed;
+            }
+            else if (down2.isDown)
+            {
+                this.player2.body.velocity.y = this.speed;
+            }
+            this.weapons[this.currentWeapon].fire(this.player);
 
+        }
     };
 
     game.state.add('Game', PhaserGame, true);
