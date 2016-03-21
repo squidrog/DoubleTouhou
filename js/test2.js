@@ -4,6 +4,9 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
     //  This is a simple Sprite object that we set a few properties on
     //  It is fired by all of the Weapon classes
 
+                var slide = 0;
+                var slideBack = false;
+
     var Bullet = function (game, key) {
 
         Phaser.Sprite.call(this, game, 0, 0, key);
@@ -52,7 +55,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
             this.scale.x += this.scaleSpeed;
             this.scale.y += this.scaleSpeed;
         }
-
+        game.physics.arcade.overlap(this, game.player, game.collisionHandler, null, this);
     };
 
     var Weapon = {};
@@ -67,12 +70,13 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         this.nextFire = 0;    
         this.bulletSpeed = 200;
-        this.fireRate = 75;
+        this.fireRate = 100;
         // i < int is max number of single shot bullets possibel on screen
-        for (var i = 0; i < 5000; i++)
+        for (var i = 0; i < 200; i++)
         {
             this.add(new Bullet(game, 'bullet5'), true);
         }
+        this.setAll('tracking', true);
 
         return this;
 
@@ -88,7 +92,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
         var x = (Math.random() * 600); // i need to change 600 to the width, was lazy dont know how
         var y = 10//source.y + 10;
 
-        this.getFirstExists(false).fire(x, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x, y,90, this.bulletSpeed, 50, 50);
 
         this.nextFire = this.game.time.time + this.fireRate;
 
@@ -144,7 +148,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
         this.bulletSpeed = 600;
         this.fireRate = 100;
 
-        for (var i = 0; i < 96; i++)
+        for (var i = 0; i < 300; i++)
         {
             this.add(new Bullet(game, 'bullet7'), true);
         }
@@ -180,14 +184,14 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
         Phaser.Group.call(this, game, game.world, 'Eight Way', false, true, Phaser.Physics.ARCADE);
 
         this.nextFire = 0;
-        this.bulletSpeed = 600;
-        this.fireRate = 100;
+        this.bulletSpeed = 100;
+        this.fireRate = 300;
 
-        for (var i = 0; i < 96; i++)
+        for (var i = 0; i < 500; i++)
         {
             this.add(new Bullet(game, 'bullet5'), true);
         }
-
+        this.setAll('tracking', true);
         return this;
 
     };
@@ -199,17 +203,17 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         if (this.game.time.time < this.nextFire) { return; }
 
-        var x = source.x + 16;
-        var y = source.y + 10;
+        var x = game.slide;
+        var y = 10;
 
-        this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(x, y, 45, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(x, y, 135, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(x, y, 180, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(x, y, 225, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(x, y, 270, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(x, y, 315, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 100);
+        this.getFirstExists(false).fire(x, y, 45, this.bulletSpeed, 0, 100);
+        this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0, 100);
+        this.getFirstExists(false).fire(x, y, 135, this.bulletSpeed, 0, 100);
+        this.getFirstExists(false).fire(x, y, 180, this.bulletSpeed, 0, 100);
+        this.getFirstExists(false).fire(x, y, 225, this.bulletSpeed, 0, 100);
+        this.getFirstExists(false).fire(x, y, 270, this.bulletSpeed, 0, 100);
+        this.getFirstExists(false).fire(x, y, 315, this.bulletSpeed, 0, 100);
 
         this.nextFire = this.game.time.time + this.fireRate;
 
@@ -227,7 +231,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
         this.bulletSpeed = 600;
         this.fireRate = 40;
 
-        for (var i = 0; i < 32; i++)
+        for (var i = 0; i < 200; i++)
         {
             this.add(new Bullet(game, 'bullet5'), true);
         }
@@ -268,7 +272,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
         {
             this.add(new Bullet(game, 'bullet11'), true);
         }
-
+        this.setAll('tracking', true);
         return this;
 
     };
@@ -283,7 +287,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
         var x = (Math.random() * 600);
         var y = 10;
 
-        this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, -50, -50);
 
         this.nextFire = this.game.time.time + this.fireRate;
 
@@ -566,7 +570,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
         this.player = null;
         this.player2 = null;
         this.cursors = null;
-        this.speed = 300;
+        this.speed = 200;
 
         this.weapons = [];
         this.currentWeapon = 0;
@@ -634,7 +638,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
             }
 
             this.player = this.add.sprite(64, 200, 'player');
-            this.player2 = this.add.sprite(75, 210, 'player2');
+            this.player2 = this.add.sprite(400, 210, 'player2');
 
             this.physics.arcade.enable(this.player);
             this.physics.arcade.enable(this.player2);
@@ -688,10 +692,10 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         update: function () {
 
-            var left2 = game.input.keyboard.addKey(Phaser.Keyboard.D);
+            var right2 = game.input.keyboard.addKey(Phaser.Keyboard.D);
             var up2 = game.input.keyboard.addKey(Phaser.Keyboard.W);
             var down2 = game.input.keyboard.addKey(Phaser.Keyboard.S);
-            var right2 = game.input.keyboard.addKey(Phaser.Keyboard.A);
+            var left2 = game.input.keyboard.addKey(Phaser.Keyboard.A);
 
             this.player.body.velocity.set(0);
             this.player2.body.velocity.set(0);
@@ -713,11 +717,11 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
             {
                 this.player.body.velocity.y = this.speed;
             }
-            if (left2.isDown)
+            if (right2.isDown)
             {
                 this.player2.body.velocity.x = this.speed;
             }
-            else if (right2.isDown)
+            else if (left2.isDown)
             {
                 this.player2.body.velocity.x = -this.speed;
             }
@@ -732,7 +736,11 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
             }
             this.weapons[this.currentWeapon].fire(this.player);
 
-        }
+        },
+        collisionHandler: function () {
+            this.background = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'backgroundDie');
+        },
+
     };
 
     game.state.add('Game', PhaserGame, true);
