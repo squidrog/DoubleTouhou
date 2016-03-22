@@ -6,6 +6,9 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
                 var slide = 0;
                 var slideBack = false;
+                var beamPlace = [60,140,220,300,380,460,540];
+                var beamNum = 0;
+                var beamBack = false;
 
     var Bullet = function (game, key) {
 
@@ -69,8 +72,8 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
         Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
 
         this.nextFire = 0;    
-        this.bulletSpeed = 200;
-        this.fireRate = 100;
+        this.bulletSpeed = 150;
+        this.fireRate = 400;
         // i < int is max number of single shot bullets possibel on screen
         for (var i = 0; i < 200; i++)
         {
@@ -92,7 +95,14 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
         var x = (Math.random() * 600); // i need to change 600 to the width, was lazy dont know how
         var y = 10//source.y + 10;
 
-        this.getFirstExists(false).fire(x, y,90, this.bulletSpeed, 50, 50);
+        this.getFirstExists(false).fire(0+20, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(80+20, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(160+20, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(240+20, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(320+20, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(400+20, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(480+20, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(560+20, y,90, this.bulletSpeed, 0, 0);
 
         this.nextFire = this.game.time.time + this.fireRate;
 
@@ -184,12 +194,12 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
         Phaser.Group.call(this, game, game.world, 'Eight Way', false, true, Phaser.Physics.ARCADE);
 
         this.nextFire = 0;
-        this.bulletSpeed = 100;
-        this.fireRate = 300;
+        this.bulletSpeed = 200;
+        this.fireRate = 250;
 
         for (var i = 0; i < 500; i++)
         {
-            this.add(new Bullet(game, 'bullet5'), true);
+            this.add(new Bullet(game, 'bullet6'), true);
         }
         this.setAll('tracking', true);
         return this;
@@ -203,17 +213,30 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         if (this.game.time.time < this.nextFire) { return; }
 
-        var x = game.slide;
-        var y = 10;
+        if (!slideBack) {
+            slide = slide + 40;
+            if (slide > 600) {
+                slideBack = true;
+            }
+        }
+        else if (slideBack) {
+            slide = slide - 40;
+            if (slide < 0) {
+                slideBack = false;
+            }
+        }
 
-        this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 100);
-        this.getFirstExists(false).fire(x, y, 45, this.bulletSpeed, 0, 100);
-        this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0, 100);
-        this.getFirstExists(false).fire(x, y, 135, this.bulletSpeed, 0, 100);
-        this.getFirstExists(false).fire(x, y, 180, this.bulletSpeed, 0, 100);
-        this.getFirstExists(false).fire(x, y, 225, this.bulletSpeed, 0, 100);
-        this.getFirstExists(false).fire(x, y, 270, this.bulletSpeed, 0, 100);
-        this.getFirstExists(false).fire(x, y, 315, this.bulletSpeed, 0, 100);
+        var x = slide;
+        var y = 5;
+
+        this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x, y, 45, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x, y, 135, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x, y, 180, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x, y, 225, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x, y, 270, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x, y, 315, this.bulletSpeed, 0, 0);
 
         this.nextFire = this.game.time.time + this.fireRate;
 
@@ -265,8 +288,8 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
         Phaser.Group.call(this, game, game.world, 'Beam', false, true, Phaser.Physics.ARCADE);
 
         this.nextFire = 0;
-        this.bulletSpeed = 500;
-        this.fireRate = 150;
+        this.bulletSpeed = 300;
+        this.fireRate = 500;
 
         for (var i = 0; i < 200; i++)
         {
@@ -284,10 +307,25 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         if (this.game.time.time < this.nextFire) { return; }
 
-        var x = (Math.random() * 600);
+       if (!beamBack) {
+            beamNum++;
+            if (beamNum > 5) {
+                beamBack = true;
+            }
+        }
+        else if (beamBack) {
+            beamNum--;
+            if (beamNum < 1) {
+                beamBack = false;
+            }
+        }
+
+        var x = beamPlace[beamNum];
         var y = 10;
 
-        this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, -50, -50);
+        this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x+20, y, 90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x-20, y, 90, this.bulletSpeed, 0, 0);
 
         this.nextFire = this.game.time.time + this.fireRate;
 
@@ -530,9 +568,9 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
     Weapon.Combo2 = function (game) {
 
         this.name = "Combo Two";
-        this.weapon1 = new Weapon.Pattern(game);
-        this.weapon2 = new Weapon.ThreeWay(game);
-        this.weapon3 = new Weapon.Rockets(game);
+        this.weapon1 = new Weapon.SingleBullet(game);
+        this.weapon2 = new Weapon.EightWay(game);
+        this.weapon3 = new Weapon.Beam(game);
 
     };
 
@@ -685,8 +723,6 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
             }
 
             this.weapons[this.currentWeapon].visible = true;
-
-            this.weaponName.text = this.weapons[this.currentWeapon].name;
 
         },
 
