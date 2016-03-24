@@ -9,6 +9,8 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
                 var beamPlace = [60,140,220,300,380,460,540];
                 var beamNum = 0;
                 var beamBack = false;
+                var player = null;
+                var player2 = null;
 
     var Bullet = function (game, key) {
 
@@ -58,7 +60,22 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
             this.scale.x += this.scaleSpeed;
             this.scale.y += this.scaleSpeed;
         }
-        game.physics.arcade.overlap(this, game.player, game.collisionHandler, null, this);
+        var P1D = checkOverlap(this, player);
+        var P2D = checkOverlap(this, player2);
+        if (P1D || P2D) {
+            if (P1D && P2D) {
+                window.alert("both players died");
+                window.location.reload();
+            }
+            else if (P1D) {
+                window.alert("player 1 died");
+                window.location.reload();
+            }
+            else if (P2D) {
+                window.alert("player 2 died");
+                window.location.reload();
+            }
+        }
     };
 
     var Weapon = {};
@@ -73,11 +90,11 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         this.nextFire = 0;    
         this.bulletSpeed = 150;
-        this.fireRate = 400;
+        this.fireRate = 600;
         // i < int is max number of single shot bullets possibel on screen
         for (var i = 0; i < 200; i++)
         {
-            this.add(new Bullet(game, 'bullet5'), true);
+            this.add(new Bullet(game, 'bullet8'), true);
         }
         this.setAll('tracking', true);
 
@@ -95,14 +112,14 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
         var x = (Math.random() * 600); // i need to change 600 to the width, was lazy dont know how
         var y = 10//source.y + 10;
 
-        this.getFirstExists(false).fire(0+20, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(0+5, y,90, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(80+20, y,90, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(160+20, y,90, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(240+20, y,90, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(320+20, y,90, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(400+20, y,90, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(480+20, y,90, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(560+20, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(560+35, y,90, this.bulletSpeed, 0, 0);
 
         this.nextFire = this.game.time.time + this.fireRate;
 
@@ -136,8 +153,8 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         if (this.game.time.time < this.nextFire) { return; }
 
-        var x = source.x + 10;
-        var y = source.y + 10;
+        var x = 0;
+        var y = 0;
 
         this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(x, y, 180, this.bulletSpeed, 0, 0);
@@ -174,8 +191,8 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         if (this.game.time.time < this.nextFire) { return; }
 
-        var x = source.x + 10;
-        var y = source.y + 10;
+        var x = 0;
+        var y = 0;
 
         this.getFirstExists(false).fire(x, y, 270, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 0);
@@ -228,12 +245,13 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         var x = slide;
         var y = 5;
+        var y2 = 795;
 
-        this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 0);
+        //this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(x, y, 45, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(x, y, 135, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(x, y, 180, this.bulletSpeed, 0, 0);
+        //this.getFirstExists(false).fire(x, y, 180, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(x, y, 225, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(x, y, 270, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(x, y, 315, this.bulletSpeed, 0, 0);
@@ -270,8 +288,8 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         if (this.game.time.time < this.nextFire) { return; }
 
-        var x = source.x + 16;
-        var y = (source.y + source.height / 2) + this.game.rnd.between(-10, 10);
+        var x = 6;
+        var y = 0;
 
         this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 0);
 
@@ -359,8 +377,8 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         if (this.game.time.time < this.nextFire) { return; }
 
-        var x = source.x + 20;
-        var y = source.y + 10;
+        var x = 0;
+        var y = 0;
 
         this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, -500);
         this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 0);
@@ -403,8 +421,8 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         if (this.game.time.time < this.nextFire) { return; }
 
-        var x = source.x + 20;
-        var y = source.y + 10;
+        var x = 0;
+        var y = 0;
 
         this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, this.pattern[this.patternIndex]);
 
@@ -515,8 +533,8 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         if (this.game.time.time < this.nextFire) { return; }
 
-        var x = source.x + 10;
-        var y = source.y + 10;
+        var x = 0;
+        var y = 0;
 
         this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 0);
 
@@ -616,6 +634,14 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
     };
 
+    checkOverlap = function (spriteA, spriteB) {
+
+        var boundsA = spriteA.getBounds();
+        var boundsB = spriteB.getBounds();
+
+        return Phaser.Rectangle.intersects(boundsA, boundsB);
+    };
+
     PhaserGame.prototype = {
 
         init: function () {
@@ -655,6 +681,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
             this.background = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'background');
             this.background.autoScroll(0, 40);
 
+            this.weapons.push(new Weapon.Combo2(this.game));
             this.weapons.push(new Weapon.SingleBullet(this.game));
             this.weapons.push(new Weapon.FrontAndBack(this.game));
             this.weapons.push(new Weapon.ThreeWay(this.game));
@@ -666,7 +693,6 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
             this.weapons.push(new Weapon.Rockets(this.game));
             this.weapons.push(new Weapon.ScaleBullet(this.game));
             this.weapons.push(new Weapon.Combo1(this.game));
-            this.weapons.push(new Weapon.Combo2(this.game));
 
             this.currentWeapon = 0;
 
@@ -675,14 +701,17 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
                 this.weapons[i].visible = false;
             }
 
-            this.player = this.add.sprite(64, 200, 'player');
-            this.player2 = this.add.sprite(400, 210, 'player2');
+            this.player = this.add.sprite(300, 400, 'player');
+            this.player2 = this.add.sprite(400, 500, 'player2');
 
             this.physics.arcade.enable(this.player);
             this.physics.arcade.enable(this.player2);
 
             this.player.body.collideWorldBounds = true;
             this.player2.body.collideWorldBounds = true;
+
+            player = this.player;
+            player2 = this.player2;
             
             // next two lines causes scrolling foreground
             //this.foreground = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'foreground');
@@ -773,9 +802,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
             this.weapons[this.currentWeapon].fire(this.player);
 
         },
-        collisionHandler: function () {
-            this.background = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'backgroundDie');
-        },
+
 
     };
 
