@@ -76,6 +76,9 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
                 window.location.reload();
             }
         }
+        /*if (P1D) {
+            window.location.reload();
+        }*/
     };
 
     var Weapon = {};
