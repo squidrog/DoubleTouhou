@@ -1,14 +1,19 @@
-var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
 
     //  Our core Bullet class
     //  This is a simple Sprite object that we set a few properties on
     //  It is fired by all of the Weapon classes
 
                 var slide = 0;
+                var slide2 = 800;
                 var slideBack = false;
-                var beamPlace = [60,140,220,300,380,460,540];
-                var beamNum = 0;
+                var slideBack2 = true;
+                var beamPlace = [50,150,250,350,450,550,650,750];
+                var beamPlace2 = [750,650,550,450,350,250,150,50];
+                var beamNum = -1;
+                var beamNum2 = -1;
                 var beamBack = false;
+                var beamBack2 = false;
                 var player = null;
                 var player2 = null;
 
@@ -93,7 +98,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         this.nextFire = 0;    
         this.bulletSpeed = 150;
-        this.fireRate = 600;
+        this.fireRate = 1000;
         // i < int is max number of single shot bullets possibel on screen
         for (var i = 0; i < 200; i++)
         {
@@ -115,14 +120,16 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
         var x = (Math.random() * 600); // i need to change 600 to the width, was lazy dont know how
         var y = 10//source.y + 10;
 
-        this.getFirstExists(false).fire(0+5, y,90, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(80+20, y,90, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(160+20, y,90, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(240+20, y,90, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(320+20, y,90, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(400+20, y,90, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(480+20, y,90, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(560+35, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(5, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(100, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(200, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(300, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(390, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(411, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(500, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(600, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(700, y,90, this.bulletSpeed, 0, 0);                    
+        this.getFirstExists(false).fire(795, y,90, this.bulletSpeed, 0, 0);
 
         this.nextFire = this.game.time.time + this.fireRate;
 
@@ -215,7 +222,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         this.nextFire = 0;
         this.bulletSpeed = 200;
-        this.fireRate = 250;
+        this.fireRate = 500;
 
         for (var i = 0; i < 500; i++)
         {
@@ -235,7 +242,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         if (!slideBack) {
             slide = slide + 40;
-            if (slide > 600) {
+            if (slide > 800) {
                 slideBack = true;
             }
         }
@@ -245,19 +252,26 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
                 slideBack = false;
             }
         }
+        if (!slideBack2) {
+            slide2 = slide2 + 40;
+            if (slide2 > 800) {
+                slideBack2 = true;
+            }
+        }
+        else if (slideBack2) {
+            slide2 = slide2 - 40;
+            if (slide2 < 0) {
+                slideBack2 = false;
+            }
+        }
 
         var x = slide;
+        var x2 = slide2;
         var y = 5;
-        var y2 = 795;
 
-        //this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(x, y, 45, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(x, y, 135, this.bulletSpeed, 0, 0);
-        //this.getFirstExists(false).fire(x, y, 180, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(x, y, 225, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(x, y, 270, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(x, y, 315, this.bulletSpeed, 0, 0);
+
+        this.getFirstExists(false).fire(x2, y, 90, this.bulletSpeed, 0, 0);
 
         this.nextFire = this.game.time.time + this.fireRate;
 
@@ -310,7 +324,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
         this.nextFire = 0;
         this.bulletSpeed = 300;
-        this.fireRate = 500;
+        this.fireRate = 1500;
 
         for (var i = 0; i < 200; i++)
         {
@@ -330,7 +344,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
        if (!beamBack) {
             beamNum++;
-            if (beamNum > 5) {
+            if (beamNum > 6) {
                 beamBack = true;
             }
         }
@@ -340,13 +354,25 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
                 beamBack = false;
             }
         }
+        if (!beamBack2) {
+            beamNum2++;
+                if (beamNum2 > 6) {
+                    beamBack2 = true;
+                }
+        }
+        else if (beamBack2) {
+            beamNum2--;
+            if (beamNum2 < 1) {
+                beamBack2 = false;
+            }
+        }
 
         var x = beamPlace[beamNum];
+        var x2 = beamPlace2[beamNum2];
         var y = 10;
 
         this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(x+20, y, 90, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(x-20, y, 90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x2, y, 90, this.bulletSpeed, 0, 0);
 
         this.nextFire = this.game.time.time + this.fireRate;
 
@@ -662,12 +688,12 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
             // this.load.baseURL = 'http://files.phaser.io.s3.amazonaws.com/codingtips/issue007/';
             this.load.crossOrigin = 'anonymous';
 
-            this.load.image('background', 'assets/back.png');
+            this.load.image('background', 'assets/black.png');
             this.load.image('backgroundDie', 'assets/backCheck.png');
             //next line adds foreground image
-            //this.load.image('foreground', 'assets/fore.png');
+            this.load.image('foreground', 'assets/wall.png');
             this.load.image('player', 'assets/ship.png');
-            this.load.image('player2', 'assets/ship.png');
+            this.load.image('player2', 'assets/ship2.png');
             //this.load.bitmapFont('shmupfont', 'assets/shmupfont.png', 'assets/shmupfont.xml');
 
             for (var i = 1; i <= 11; i++)
@@ -677,11 +703,13 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
             //  Note: Graphics are not for use in any commercial project
 
+
         },
 
         create: function () {
 
             this.background = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'background');
+            this.foreground = this.add.tileSprite(395, 0, 10, this.game.height, 'foreground');
             this.background.autoScroll(0, 40);
 
             this.weapons.push(new Weapon.Combo2(this.game));
@@ -704,8 +732,8 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
                 this.weapons[i].visible = false;
             }
 
-            this.player = this.add.sprite(300, 400, 'player');
-            this.player2 = this.add.sprite(400, 500, 'player2');
+            this.player = this.add.sprite(700, 500, 'player');
+            this.player2 = this.add.sprite(100, 500, 'player2');
 
             this.physics.arcade.enable(this.player);
             this.physics.arcade.enable(this.player2);
@@ -717,7 +745,6 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
             player2 = this.player2;
             
             // next two lines causes scrolling foreground
-            //this.foreground = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'foreground');
             //this.foreground.autoScroll(-60, 0);
 
             //this.weaponName = this.add.bitmapText(8, 364, 'shmupfont', "ENTER = Next Weapon", 24);
@@ -770,11 +797,13 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
 
             if (this.cursors.left.isDown)
             {
-                this.player.body.velocity.x = -this.speed;
+                if (this.player.x > 410) {
+                    this.player.body.velocity.x = -this.speed;
+                }
             }
             else if (this.cursors.right.isDown)
             {
-                this.player.body.velocity.x = this.speed;
+                    this.player.body.velocity.x = this.speed;
             }
 
             if (this.cursors.up.isDown)
@@ -787,11 +816,13 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
             }
             if (right2.isDown)
             {
-                this.player2.body.velocity.x = this.speed;
+                if (this.player2.x < 379) {
+                    this.player2.body.velocity.x = this.speed;
+                }
             }
             else if (left2.isDown)
             {
-                this.player2.body.velocity.x = -this.speed;
+                    this.player2.body.velocity.x = -this.speed;
             }
 
             if (up2.isDown)
@@ -803,6 +834,7 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, 'game');
                 this.player2.body.velocity.y = this.speed;
             }
             this.weapons[this.currentWeapon].fire(this.player);
+
 
         },
 
