@@ -688,7 +688,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
             // this.load.baseURL = 'http://files.phaser.io.s3.amazonaws.com/codingtips/issue007/';
             this.load.crossOrigin = 'anonymous';
 
-            this.load.image('background', 'assets/black.png');
+            this.load.image('background', 'assets/back.png');
             this.load.image('backgroundDie', 'assets/backCheck.png');
             //next line adds foreground image
             this.load.image('foreground', 'assets/wall.png');
