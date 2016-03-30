@@ -709,7 +709,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
         create: function () {
 
             this.background = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'background');
-            this.foreground = this.add.tileSprite(395, 0, 10, this.game.height, 'foreground');
+            this.foreground = this.add.tileSprite(395, 0, 15, this.game.height, 'foreground');
             this.background.autoScroll(0, 40);
 
             this.weapons.push(new Weapon.Combo2(this.game));
