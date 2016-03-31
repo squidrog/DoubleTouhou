@@ -125,7 +125,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
         this.getFirstExists(false).fire(200, y,90, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(300, y,90, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(390, y,90, this.bulletSpeed, 0, 0);
-        this.getFirstExists(false).fire(411, y,90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(417, y,90, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(500, y,90, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(600, y,90, this.bulletSpeed, 0, 0);
         this.getFirstExists(false).fire(700, y,90, this.bulletSpeed, 0, 0);                    
@@ -710,6 +710,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
 
             this.background = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'background');
             this.foreground = this.add.tileSprite(395, 0, 15, this.game.height, 'foreground');
+            this.foreground.autoScroll(0,80);
             this.background.autoScroll(0, 40);
 
             this.weapons.push(new Weapon.Combo2(this.game));
@@ -797,7 +798,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
 
             if (this.cursors.left.isDown)
             {
-                if (this.player.x > 410) {
+                if (this.player.x > 415) {
                     this.player.body.velocity.x = -this.speed;
                 }
             }
