@@ -693,7 +693,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
             //next line adds foreground image
             this.load.image('foreground', 'assets/wall.png');
             this.load.image('player', 'assets/ship.png');
-            this.load.image('player2', 'assets/ship2.png');
+            this.load.image('player2', 'assets/ship.png');
             //this.load.bitmapFont('shmupfont', 'assets/shmupfont.png', 'assets/shmupfont.xml');
 
             for (var i = 1; i <= 11; i++)
